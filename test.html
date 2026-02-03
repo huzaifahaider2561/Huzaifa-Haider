@@ -1,0 +1,3726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Huzaifa - AI Engineer & Technology Specialist</title>
+    
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- IONICONS -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <style>
+        /* ==========================================================================
+           RESET & BASE STYLES
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0514;
+            color: #ffffff;
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* ==========================================================================
+           ANIMATED BACKGROUND CANVAS
+           ========================================================================== */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            background: radial-gradient(
+                ellipse at top,
+                #1a0b2e 0%,
+                #0d061a 30%,
+                #070212 70%,
+                #05010e 100%
+            );
+        }
+
+        /* ==========================================================================
+           LOADING SCREEN
+           ========================================================================== */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0514;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(63, 255, 220, 0.3);
+            border-top-color: #3fffdc;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            color: #3fffdc;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        /* ==========================================================================
+           MAIN CONTAINER
+           ========================================================================== */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* ==========================================================================
+           HEADER NAVIGATION
+           ========================================================================== */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 5, 20, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(63, 255, 220, 0.15);
+            padding: 18px 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-header.scrolled {
+            padding: 12px 0;
+            background: rgba(10, 5, 20, 0.95);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* LOGO */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .logo-img-container {
+            position: relative;
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #3fffdc;
+            transition: all 0.3s ease;
+        }
+
+        .logo-img-container::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #3fffdc, #9f6bff, #ff4fa6);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo:hover .logo-img-container::before {
+            opacity: 1;
+        }
+
+        .logo-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffffff, #3fffdc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .logo-text span {
+            color: #3fffdc;
+        }
+
+        /* NAVIGATION MENU */
+        .nav-menu {
+            display: flex;
+            gap: 10px;
+            list-style: none;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 12px 22px;
+            border-radius: 30px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(63, 255, 220, 0.1), rgba(159, 107, 255, 0.1));
+            border-radius: 30px;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .nav-link:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .nav-link:hover {
+            color: #3fffdc;
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(45deg, rgba(63, 255, 220, 0.15), rgba(159, 107, 255, 0.15));
+            color: #3fffdc;
+            box-shadow: 0 5px 15px rgba(63, 255, 220, 0.2);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 3px;
+            background: #3fffdc;
+            border-radius: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+        }
+
+        /* MOBILE MENU BUTTON */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(63, 255, 220, 0.1);
+            color: #3fffdc;
+        }
+
+        /* REMOVED: Theme Switcher styles */
+
+        /* ==========================================================================
+           MAIN CONTENT AREA
+           ========================================================================== */
+        .content-wrapper {
+            min-height: 100vh;
+            padding-top: 100px;
+            padding-bottom: 50px;
+            position: relative;
+        }
+
+        /* ==========================================================================
+           PAGE SECTIONS COMMON STYLES
+           ========================================================================== */
+        .page-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .page-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffffff, #3fffdc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #3fffdc, #9f6bff);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ==========================================================================
+           ABOUT PAGE STYLES
+           ========================================================================== */
+        .about-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 80px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffffff, #3fffdc, #9f6bff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-content .highlight {
+            display: block;
+            color: #ff4fa6;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(63, 255, 220, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(63, 255, 220, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: #3fffdc;
+            box-shadow: 0 10px 30px rgba(63, 255, 220, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #3fffdc;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .image-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(63, 255, 220, 0.2), rgba(159, 107, 255, 0.2));
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-container:hover::before {
+            opacity: 1;
+        }
+
+        /* ABOUT CONTENT */
+        .about-content {
+            background: rgba(15, 8, 28, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            border: 1px solid rgba(63, 255, 220, 0.1);
+            margin-bottom: 80px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .about-card {
+            background: rgba(20, 10, 40, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(63, 255, 220, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            border-color: #3fffdc;
+            box-shadow: 0 15px 40px rgba(63, 255, 220, 0.15);
+        }
+
+        .about-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            color: #3fffdc;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .about-card p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+        }
+
+        /* SERVICES */
+        .services-section {
+            margin-bottom: 80px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: rgba(15, 8, 28, 0.6);
+            border-radius: 15px;
+            padding: 40px 30px;
+            border: 1px solid rgba(63, 255, 220, 0.1);
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(63, 255, 220, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            border-color: #3fffdc;
+            box-shadow: 0 20px 50px rgba(63, 255, 220, 0.2);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, rgba(63, 255, 220, 0.1), rgba(159, 107, 255, 0.1));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2.5rem;
+            color: #3fffdc;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(10deg);
+            background: linear-gradient(45deg, rgba(63, 255, 220, 0.2), rgba(159, 107, 255, 0.2));
+        }
+
+        .service-card h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        /* TESTIMONIALS */
+        .testimonials-section {
+            margin-bottom: 80px;
+        }
+
+        .testimonials-slider {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .testimonial-slide {
+            min-width: 100%;
+            padding: 20px;
+        }
+
+        .testimonial-card {
+            background: rgba(15, 8, 28, 0.6);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(63, 255, 220, 0.1);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 5rem;
+            color: rgba(63, 255, 220, 0.1);
+            font-family: 'Times New Roman', serif;
+        }
+
+        .testimonial-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-text {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .author-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #3fffdc;
+        }
+
+        .author-info h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: #3fffdc;
+            font-size: 0.9rem;
+        }
+
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .slider-btn {
+            background: rgba(63, 255, 220, 0.1);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-btn:hover {
+            background: rgba(63, 255, 220, 0.2);
+            color: #3fffdc;
+            transform: scale(1.1);
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(63, 255, 220, 0.3);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider-dot.active {
+            background: #3fffdc;
+            transform: scale(1.2);
+        }
+
+        /* ==========================================================================
+           RESUME PAGE STYLES
+           ========================================================================== */
+        .resume-hero {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(63, 255, 220, 0.1), rgba(159, 107, 255, 0.1));
+            border-radius: 20px;
+            border: 1px solid rgba(63, 255, 220, 0.2);
+        }
+
+        .resume-download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(45deg, #3fffdc, #2fd9c0);
+            color: #0a0514;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(63, 255, 220, 0.3);
+        }
+
+        .resume-download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(63, 255, 220, 0.4);
+        }
+
+        /* TIMELINE */
+        .timeline-section {
+            margin-bottom: 60px;
+        }
+
+        .timeline-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, #3fffdc, #9f6bff, #ff4fa6);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            justify-content: flex-end;
+            padding-right: 60px;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-left: 60px;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #3fffdc;
+            border-radius: 50%;
+            border: 4px solid #0a0514;
+            box-shadow: 0 0 0 4px rgba(63, 255, 220, 0.3);
+            z-index: 1;
+        }
+
+        .timeline-content {
+            background: rgba(15, 8, 28, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(63, 255, 220, 0.1);
+            width: 45%;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            border-color: #3fffdc;
+            box-shadow: 0 10px 30px rgba(63, 255, 220, 0.1);
+        }
+
+        .timeline-date {
+            display: inline-block;
+            background: rgba(63, 255, 220, 0.1);
+            color: #3fffdc;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .timeline-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .timeline-subtitle {
+            color: #3fffdc;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .timeline-description {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* SKILLS */
+        .skills-section {
+            margin-bottom: 60px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-category {
+            background: rgba(15, 8, 28, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(63, 255, 220, 0.1);
+        }
+
+        .skill-category h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: #3fffdc;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .skill-item {
+            margin-bottom: 20px;
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .skill-name {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .skill-percent {
+            color: #3fffdc;
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #3fffdc, #2fd9c0);
+            border-radius: 4px;
+            position: relative;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .skill-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* ==========================================================================
+           PORTFOLIO PAGE STYLES
+           ========================================================================== */
+        .portfolio-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(63, 255, 220, 0.1);
+            border: 1px solid rgba(63, 255, 220, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .filter-btn:hover {
+            background: rgba(63, 255, 220, 0.2);
+            color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(45deg, rgba(63, 255, 220, 0.3), rgba(159, 107, 255, 0.3));
+            color: #ffffff;
+            border-color: #3fffdc;
+            box-shadow: 0 10px 25px rgba(63, 255, 220, 0.2);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .portfolio-item {
+            background: rgba(15, 8, 28, 0.6);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(63, 255, 220, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-15px);
+            border-color: #3fffdc;
+            box-shadow: 0 25px 50px rgba(63, 255, 220, 0.15);
+        }
+
+        .portfolio-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(63, 255, 220, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .portfolio-item:hover::before {
+            opacity: 1;
+        }
+
+        .portfolio-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .portfolio-item:hover .portfolio-image {
+            transform: scale(1.05);
+        }
+
+        .portfolio-content {
+            padding: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .portfolio-category {
+            display: inline-block;
+            background: rgba(63, 255, 220, 0.1);
+            color: #3fffdc;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .portfolio-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .portfolio-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .portfolio-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tech-tag {
+            background: rgba(159, 107, 255, 0.1);
+            color: #9f6bff;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .portfolio-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .portfolio-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #3fffdc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-link:hover {
+            color: #ffffff;
+            gap: 12px;
+        }
+
+        /* PROJECT MODAL - FIXED HEIGHT ISSUE */
+        .project-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .project-modal.active {
+            display: flex;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: rgba(15, 8, 28, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            border-radius: 20px;
+            border: 1px solid rgba(63, 255, 220, 0.2);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 30px 40px 20px;
+            border-bottom: 1px solid rgba(63, 255, 220, 0.1);
+            flex-shrink: 0;
+        }
+
+        .modal-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .modal-category {
+            display: inline-block;
+            background: rgba(63, 255, 220, 0.1);
+            color: #3fffdc;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 79, 166, 0.1);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: #ff4fa6;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 79, 166, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 30px 40px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .modal-description {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .modal-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .detail-group h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #3fffdc;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .modal-tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tech-tag-large {
+            background: rgba(63, 255, 220, 0.1);
+            color: #3fffdc;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .modal-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .modal-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .modal-link.live {
+            background: linear-gradient(45deg, #3fffdc, #2fd9c0);
+            color: #0a0514;
+        }
+
+        .modal-link.github {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(63, 255, 220, 0.3);
+        }
+
+        /* ==========================================================================
+           CONTACT PAGE STYLES
+           ========================================================================== */
+        .contact-hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        /* CONTACT INFO */
+        .contact-info {
+            background: rgba(15, 8, 28, 0.6);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(63, 255, 220, 0.1);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(63, 255, 220, 0.1);
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, rgba(63, 255, 220, 0.1), rgba(159, 107, 255, 0.1));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #3fffdc;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover .contact-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: linear-gradient(45deg, rgba(63, 255, 220, 0.2), rgba(159, 107, 255, 0.2));
+        }
+
+        .contact-details h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .contact-details p,
+        .contact-details a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-details a:hover {
+            color: #3fffdc;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: rgba(63, 255, 220, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3fffdc;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(63, 255, 220, 0.2);
+            color: #ffffff;
+            transform: translateY(-5px);
+        }
+
+        /* CONTACT FORM */
+        .contact-form {
+            background: rgba(15, 8, 28, 0.6);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(63, 255, 220, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3fffdc;
+            background: rgba(63, 255, 220, 0.05);
+            box-shadow: 0 5px 20px rgba(63, 255, 220, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #3fffdc, #2fd9c0);
+            color: #0a0514;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(63, 255, 220, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-message {
+            margin-top: 20px;
+            padding: 15px 20px;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .form-message.success {
+            background: rgba(63, 255, 220, 0.1);
+            border: 1px solid #3fffdc;
+            color: #3fffdc;
+            display: block;
+        }
+
+        .form-message.error {
+            background: rgba(255, 79, 166, 0.1);
+            border: 1px solid #ff4fa6;
+            color: #ff4fa6;
+            display: block;
+        }
+
+        /* MAP SECTION */
+        .map-section {
+            margin-top: 60px;
+        }
+
+        .map-container {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(63, 255, 220, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            display: block;
+            filter: none !important;
+            -webkit-filter: none !important;
+        }
+
+        /* ==========================================================================
+           FOOTER
+           ========================================================================== */
+        .main-footer {
+            background: rgba(10, 5, 20, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(63, 255, 220, 0.1);
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffffff, #3fffdc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-about p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 25px;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-bottom: 25px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #3fffdc;
+            padding-left: 5px;
+        }
+
+        .footer-contact p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        /* ==========================================================================
+           RESPONSIVE DESIGN
+           ========================================================================== */
+        @media (max-width: 1200px) {
+            .header-container {
+                padding: 0 20px;
+            }
+            
+            .about-hero,
+            .about-grid,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+            
+            .section-title {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -300px;
+                width: 300px;
+                height: 100vh;
+                background: rgba(10, 5, 20, 0.95);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 100px 30px 30px;
+                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 1000;
+                border-left: 1px solid rgba(63, 255, 220, 0.1);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-item {
+                width: 100%;
+            }
+
+            .nav-link {
+                width: 100%;
+                justify-content: flex-start;
+                border-radius: 12px;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .content-wrapper {
+                padding-top: 90px;
+            }
+
+            .timeline-container::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                padding-left: 60px !important;
+                padding-right: 0 !important;
+            }
+
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                justify-content: flex-start;
+            }
+
+            .timeline-marker {
+                left: 30px;
+            }
+
+            .timeline-content {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+            
+            .about-content,
+            .contact-info,
+            .contact-form {
+                padding: 30px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+            
+            .modal-header {
+                padding: 20px 20px 15px;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+            
+            .modal-title {
+                font-size: 2rem;
+            }
+            
+            .modal-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .modal-image {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                padding: 0 15px;
+            }
+            
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .logo-img-container {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .about-content,
+            .contact-info,
+            .contact-form {
+                padding: 20px;
+            }
+            
+            .services-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial-card {
+                padding: 25px;
+            }
+            
+            .modal-content {
+                width: 100%;
+                border-radius: 15px;
+            }
+            
+            .modal-header {
+                padding: 20px 15px 15px;
+            }
+            
+            .modal-body {
+                padding: 15px;
+            }
+            
+            .modal-title {
+                font-size: 1.8rem;
+            }
+            
+            .modal-image {
+                height: 250px;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* ==========================================================================
+           UTILITY CLASSES
+           ========================================================================== */
+        .text-gradient {
+            background: linear-gradient(45deg, #3fffdc, #9f6bff, #ff4fa6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .glass-effect {
+            background: rgba(15, 8, 28, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(63, 255, 220, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #3fffdc, #2fd9c0);
+            color: #0a0514;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(63, 255, 220, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(63, 255, 220, 0.1);
+            color: #3fffdc;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(63, 255, 220, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(63, 255, 220, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(63, 255, 220, 0.2);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.8s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ==========================================================================
+         LOADING SCREEN
+         ========================================================================== -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">LOADING PORTFOLIO</div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         ANIMATED BACKGROUND CANVAS
+         ========================================================================== -->
+    <canvas id="canvas-bg"></canvas>
+
+    <!-- ==========================================================================
+         HEADER NAVIGATION
+         ========================================================================== -->
+    <header class="main-header" id="mainHeader">
+        <div class="header-container">
+            <!-- Logo -->
+            <a href="#" class="logo" id="homeLink">
+                <div class="logo-img-container">
+                    <img src="./assets/images/huzaifaico.png" alt="Muhammad Huzaifa" class="logo-img">
+                </div>
+                <div class="logo-text">Huzaifa<span></span></div>
+            </a>
+
+            <!-- Desktop Navigation Menu -->
+            <nav>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link active" data-page="about">
+                            <ion-icon name="person-outline" class="nav-icon"></ion-icon>
+                            About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#resume" class="nav-link" data-page="resume">
+                            <ion-icon name="document-text-outline" class="nav-icon"></ion-icon>
+                            Resume
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#portfolio" class="nav-link" data-page="portfolio">
+                            <ion-icon name="briefcase-outline" class="nav-icon"></ion-icon>
+                            Portfolio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#contact" class="nav-link" data-page="contact">
+                            <ion-icon name="chatbubble-ellipses-outline" class="nav-icon"></ion-icon>
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="content-wrapper">
+        <div class="main-container">
+            <!-- ==================================================================
+                 ABOUT PAGE
+                 ================================================================== -->
+            <section id="about" class="page-section active">
+                <div class="section-container">
+                    <!-- About Hero -->
+                    <div class="about-hero">
+                        <div class="hero-content">
+                            <h1>AI Engineer &<br><span class="highlight">Automation Specialist</span></h1>
+                            <p>Building intelligent systems that transform complex data into practical, scalable solutions. Combining AI expertise with enterprise IT knowledge to drive innovation.</p>
+                            <div class="hero-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">10+</div>
+                                    <div class="stat-label">Projects</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">2+</div>
+                                    <div class="stat-label">Years Experience</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">95%</div>
+                                    <div class="stat-label">Client Satisfaction</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-image">
+                            <div class="image-container">
+                                <img src="./assets/images/portfolio1.png" alt="Muhammad Huzaifa">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About Content -->
+                    <div class="about-content">
+                        <div class="about-grid">
+                            <div class="about-card">
+                                <h3><ion-icon name="bulb-outline"></ion-icon> Who I Am</h3>
+                                <p>II am a Computer Science graduate, AI Engineer, and ICT Officer with a strong academic and 
+                                    practical foundation in artificial intelligence, system support, and applied software development. 
+                                    My background includes hands-on experience in AI-based healthcare solutions, 
+                                    NLP-driven applications, and intelligent automation systems developed through academic projects and professional roles.</p>
+                                <p>My work focuses on applying machine learning, deep learning, and natural language processing to real-world problems, 
+                                    ranging from on-premise enterprise chatbots and monitoring systems to data-driven healthcare recommendation models and 
+                                    industrial plant health prediction. With experience across healthcare and industrial environments, 
+                                    I aim to bridge theoretical AI concepts with practical, reliable, and scalable solutions that improve decision-making, 
+                                    operational efficiency, and system performance.</p>
+                            </div>
+                            <div class="about-card">
+                                <h3><ion-icon name="rocket-outline"></ion-icon> My Approach</h3>
+                                <p>I take a structured and problem-driven approach to technology and AI solutions. Each project begins 
+                                    with understanding system requirements, data availability, and real-world constraints, followed by designing 
+                                    solutions that are practical, reliable, and aligned with operational needs. 
+                                    I focus on building systems that can be effectively deployed and maintained, whether in healthcare, enterprise, 
+                                    or industrial environments.</p>
+                                <p>My methodology emphasizes iterative development, data validation, and continuous performance evaluation. 
+                                    I combine careful model selection, testing, and optimization with clear documentation to ensure transparency, 
+                                    reproducibility, and long-term usability. By balancing theoretical foundations with hands-on implementation, 
+                                    I aim to deliver AI and ICT solutions that are technically sound, user-focused, and capable of supporting informed decision-making.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Services -->
+                    <div class="services-section">
+                        <div class="section-header">
+                            <h2 class="section-title">What I Do</h2>
+                            <p class="section-subtitle">Specialized services combining AI expertise with practical implementation</p>
+                        </div>
+                        <div class="services-grid">
+                            <div class="service-card">
+                                <div class="service-icon">
+                                    <ion-icon name="hardware-chip-outline"></ion-icon>
+                                </div>
+                                <h4>AI Solutions</h4>
+                                <p>Designing and implementing intelligent systems using machine learning and deep learning for real-world problems across healthcare, enterprise, and automation domains.</p>
+                            </div>
+                            <div class="service-card">
+                                <div class="service-icon">
+                                    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+                                </div>
+                                <h4>NLP Systems</h4>
+                                <p>Building conversational systems and chatbots that understand user intent, process unstructured text, and deliver accurate, context-aware responses for enterprise applications.</p>
+                            </div>
+                            <div class="service-card">
+                                <div class="service-icon">
+                                    <ion-icon name="pulse-outline"></ion-icon>
+                                </div>
+                                <h4>Infrastructure Automation</h4>
+                                <p>Developing automated monitoring and alerting solutions to track system availability, performance, and reliability with intelligent response mechanisms.</p>
+                            </div>
+                            <div class="service-card">
+                                <div class="service-icon">
+                                    <ion-icon name="cog-outline"></ion-icon>
+                                </div>
+                                <h4>Enterprise Support</h4>
+                                <p>Providing structured support for enterprise applications and information technology systems, ensuring stability, security, and smooth day-to-day operations.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonials -->
+                    <div class="testimonials-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Testimonials</h2>
+                            <p class="section-subtitle">What colleagues and supervisors say about my work</p>
+                        </div>
+                        <div class="testimonials-slider">
+                            <div class="testimonials-track" id="testimonialsTrack">
+                                <!-- Testimonial 1 -->
+                                <div class="testimonial-slide">
+                                    <div class="testimonial-card">
+                                        <div class="testimonial-content">
+                                            <p class="testimonial-text">"Muhammad Huzaifa worked under my supervision at CNERGYICO PK Limited, where he contributed to artificial intelligence, information technology, and application support initiatives. I was very satisfied with his performance, particularly his work on AI-driven solutions, automation, and system optimization."</p>
+                                            <div class="testimonial-author">
+                                                <img src="./assets/images/avatar-1.png" alt="Farhan Alam" class="author-avatar">
+                                                <div class="author-info">
+                                                    <h4>Farhan Alam</h4>
+                                                    <p>Manager - CNERGYICO PK Limited</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Testimonial 2 -->
+                                <div class="testimonial-slide">
+                                    <div class="testimonial-card">
+                                        <div class="testimonial-content">
+                                            <p class="testimonial-text">"Muhammad Huzaifa worked at Tabba Heart Institute as an ICT Service Desk Officer under my supervision. He handled day-to-day information and communication technology support operations with professionalism and efficiency, ensuring smooth functioning of systems and timely issue resolution."</p>
+                                            <div class="testimonial-author">
+                                                <img src="./assets/images/avatar-4.png" alt="Anis Ali" class="author-avatar">
+                                                <div class="author-info">
+                                                    <h4>Anis Ali</h4>
+                                                    <p>Deputy Manager - Tabba Heart Institute</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Testimonial 3 -->
+                                <div class="testimonial-slide">
+                                    <div class="testimonial-card">
+                                        <div class="testimonial-content">
+                                            <p class="testimonial-text">"Huzaifa consistently demonstrated diligence, strong analytical skills, and a genuine curiosity to understand complex technical concepts. He is a versatile and self-motivated individual who works well both independently and in collaborative environments."</p>
+                                            <div class="testimonial-author">
+                                                <img src="./assets/images/avatarico.png" alt="Dr. Mohsin Raza Jafri" class="author-avatar">
+                                                <div class="author-info">
+                                                    <h4>Dr. Mohsin Raza Jafri</h4>
+                                                    <p>Professor - National University of Sciences and Technology</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-nav">
+                                <button class="slider-btn" id="prevTestimonial">
+                                    <ion-icon name="chevron-back-outline"></ion-icon>
+                                </button>
+                                <button class="slider-btn" id="nextTestimonial">
+                                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                                </button>
+                            </div>
+                            <div class="slider-dots" id="testimonialDots">
+                                <button class="slider-dot active"></button>
+                                <button class="slider-dot"></button>
+                                <button class="slider-dot"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================================================================
+                 RESUME PAGE
+                 ================================================================== -->
+            <section id="resume" class="page-section">
+                <div class="section-container">
+                    <div class="section-header">
+                        <h2 class="section-title">My Resume</h2>
+                        <p class="section-subtitle">Education, experience, and skills in AI engineering and technology</p>
+                    </div>
+
+                    <!-- Resume Hero -->
+                    <div class="resume-hero">
+                        <h2 class="text-gradient">Professional Experience & Education</h2>
+                        <p>Combining academic excellence with practical industry experience in AI and technology</p>
+                        <a href="./assets/resume.pdf" class="resume-download-btn" download>
+                            <ion-icon name="download-outline"></ion-icon>
+                            Download Full Resume
+                        </a>
+                    </div>
+
+                    <!-- Education Timeline -->
+                    <div class="timeline-section">
+                        <h3 class="section-subtitle" style="text-align: left; margin-bottom: 40px; font-size: 1.8rem;">
+                            <ion-icon name="school-outline" style="vertical-align: middle; margin-right: 10px;"></ion-icon>
+                            Education
+                        </h3>
+                        <div class="timeline-container">
+                            <!-- Education Item 1 -->
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <span class="timeline-date">2020 - 2024</span>
+                                    <h3 class="timeline-title">National University of Sciences and Technology</h3>
+                                    <p class="timeline-subtitle">Bachelor of Science in Computer Science</p>
+                                    <p class="timeline-description">Specialized Artificial Intelligence and Deep Learning. Academic training includes Machine Learning, Computer Vision, Natural Language Processing, Digital Image Processing, and core computer science foundations, supported by multiple technical projects. GPA: 3.0/4.0.</p>
+                                </div>
+                            </div>
+                            <!-- Education Item 2 -->
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <span class="timeline-date">2018 - 2020</span>
+                                    <h3 class="timeline-title">Adamjee Government Science College</h3>
+                                    <p class="timeline-subtitle">Intermediate in Pre-Engineering</p>
+                                    <p class="timeline-description">Focus on Mathematics, Physics, and Chemistry. Achieved top grades and participated in multiple science exhibitions and competitions.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience Timeline -->
+                    <div class="timeline-section">
+                        <h3 class="section-subtitle" style="text-align: left; margin-bottom: 40px; font-size: 1.8rem;">
+                            <ion-icon name="briefcase-outline" style="vertical-align: middle; margin-right: 10px;"></ion-icon>
+                            Experience
+                        </h3>
+                        <div class="timeline-container">
+                            <!-- Experience Item 1 -->
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <span class="timeline-date">Oct 2025 - Present</span>
+                                    <h3 class="timeline-title">CNERGYICO PK LIMITED</h3>
+                                    <p class="timeline-subtitle">AI Engineer</p>
+                                    <p class="timeline-description">Developing and deploying AI-driven solutions, automation systems, 
+                                        and enterprise applications. Implementing NLP-based on-premise chatbots, monitoring and alerting systems, 
+                                        and optimizing workflows using machine learning techniques. Additionally contributing to predictive models for 
+                                        refinery plant health by analyzing operational and process data to support early fault detection, reliability 
+                                        improvement, and informed decision-making.</p>
+                                </div>
+                            </div>
+                            <!-- Experience Item 2 -->
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <span class="timeline-date">Mar 2025 - Sep 2025</span>
+                                    <h3 class="timeline-title">TABBA HEART INSTITUTE</h3>
+                                    <p class="timeline-subtitle">ICT Service Desk Officer</p>
+                                    <p class="timeline-description">Provided ICT service desk support in a healthcare environment, 
+                                        assisting clinical and administrative staff with system usage, troubleshooting, and issue resolution. 
+                                        Initiated and contributed to an artificial intelligence–based healthcare support system designed to suggest 
+                                        personalized diet and medication recommendations and analyze patient data to identify potential future disease risks, 
+                                        supporting improved healthcare workflows through data-driven insights.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projects Timeline -->
+                    <div class="timeline-section">
+                        <h3 class="section-subtitle" style="text-align: left; margin-bottom: 40px; font-size: 1.8rem;">
+                            <ion-icon name="code-slash-outline" style="vertical-align: middle; margin-right: 10px;"></ion-icon>
+                            Key Projects
+                        </h3>
+                        <div class="timeline-container">
+                            <!-- Project Item 1 -->
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <span class="timeline-date">2025 - Present</span>
+                                    <h3 class="timeline-title">Natural Language Processing Chatbot for Enterprise Systems</h3>
+                                    <p class="timeline-description">Developing an on-premise NLP-based chatbot using Retrieval-Augmented Generation (RAG) and workflow automation to interpret user queries, generate structured database queries, and retrieve data from PostgreSQL systems, with ongoing evaluation for secure integration with SAP and in-house enterprise applications.</p>
+                                </div>
+                            </div>
+                            <!-- Project Item 2 -->
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <span class="timeline-date">2025</span>
+                                    <h3 class="timeline-title">Artificial Intelligence Referee Chatbot</h3>
+                                    <p class="timeline-description">Developed a multi-model AI chatbot that evaluates and compares responses from multiple large language models using peer-review and voting mechanisms, producing consensus-based enhanced answers with comparative analysis and explainability.</p>
+                                </div>
+                            </div>
+                            <!-- Project Item 3 -->
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <span class="timeline-date">2025</span>
+                                    <h3 class="timeline-title">Real-Time Infrastructure Monitoring and Alert Automation System</h3>
+                                    <p class="timeline-description">Developed a Python-based monitoring and alert automation system using heartbeat-based health verification, tier-based alert escalation, automated notifications, and recovery detection to support reliable and scalable enterprise operations.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills Section -->
+                    <div class="skills-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Skills & Expertise</h2>
+                            <p class="section-subtitle">Technical and professional skills developed through education and experience</p>
+                        </div>
+                        <div class="skills-grid">
+                            <!-- Technical Skills -->
+                            <div class="skill-category">
+                                <h3><ion-icon name="terminal-outline"></ion-icon> Technical Skills</h3>
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Deep Learning & Computer Vision</span>
+                                        <span class="skill-percent">85%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <span class="skill-name">AI & Machine Learning</span>
+                                        <span class="skill-percent">75%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <span class="skill-name">NLP & Chatbots</span>
+                                        <span class="skill-percent">70%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 70%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Python Programming</span>
+                                        <span class="skill-percent">80%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 80%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Professional Skills -->
+                            <div class="skill-category">
+                                <h3><ion-icon name="people-outline"></ion-icon> Professional Skills</h3>
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Enterprise System Support</span>
+                                        <span class="skill-percent">75%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Project Management</span>
+                                        <span class="skill-percent">85%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Team Collaboration</span>
+                                        <span class="skill-percent">80%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 80%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Problem Solving</span>
+                                        <span class="skill-percent">90%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 90%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================================================================
+                 PORTFOLIO PAGE
+                 ================================================================== -->
+            <section id="portfolio" class="page-section">
+                <div class="section-container">
+                    <div class="section-header">
+                        <h2 class="section-title">My Portfolio</h2>
+                        <p class="section-subtitle">A collection of projects showcasing AI, automation, and technology solutions</p>
+                    </div>
+
+                    <!-- Portfolio Filters -->
+                    <div class="portfolio-filters">
+                        <button class="filter-btn active" data-filter="all">All Projects</button>
+                        <button class="filter-btn" data-filter="ai">AI & Enterprise Solutions</button>
+                        <button class="filter-btn" data-filter="robotics">Robotics & Hardware</button>
+                        <button class="filter-btn" data-filter="apps">Applications & Networks</button>
+                        <button class="filter-btn" data-filter="graphics">Graphics & Vision</button>
+                    </div>
+
+                    <!-- Portfolio Grid -->
+                    <div class="portfolio-grid" id="portfolioGrid">
+                        <!-- Project 1 -->
+                        <div class="portfolio-item" data-category="ai">
+                            <img src="./assets/images/project1.png" alt="Natural Language Processing Chatbot for Enterprise Systems" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">AI & Enterprise Solutions</span>
+                                <h3 class="portfolio-title">Natural Language Processing Chatbot for Enterprise Systems</h3>
+                                <p class="portfolio-description">Developing an on-premise NLP-based chatbot using Retrieval-Augmented Generation (RAG) and workflow automation to interpret user queries, generate structured database queries, and retrieve data from PostgreSQL systems, with ongoing evaluation for secure integration with SAP and in-house enterprise applications.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">Python</span>
+                                    <span class="tech-tag">NLP</span>
+                                    <span class="tech-tag">PostgreSQL</span>
+                                    <span class="tech-tag">FastAPI</span>
+                                    <span class="tech-tag">Enterprise Integration</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="1">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+                        <!-- Project 2 -->
+                        <div class="portfolio-item" data-category="ai">
+                            <img src="./assets/images/project2.jpg" alt="Artificial Intelligence Referee Chatbot" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">AI & Enterprise Solutions</span>
+                                <h3 class="portfolio-title">Artificial Intelligence Referee Chatbot</h3>
+                                <p class="portfolio-description">Developed a multi-model AI chatbot that evaluates and compares responses from multiple large language models using peer-review and voting mechanisms, producing consensus-based enhanced answers with comparative analysis and explainability.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">Python</span>
+                                    <span class="tech-tag">LLMs</span>
+                                    <span class="tech-tag">Machine Learning</span>
+                                    <span class="tech-tag">API Integration</span>
+                                    <span class="tech-tag">Voting Algorithms</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="2">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+                        <!-- Project 3 -->
+                        <div class="portfolio-item" data-category="apps">
+                            <img src="./assets/images/project3.jpg" alt="Real-Time Infrastructure Monitoring System" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Applications & Enterprise</span>
+                                <h3 class="portfolio-title">Real-Time Infrastructure Monitoring System</h3>
+                                <p class="portfolio-description">Developed a Python-based monitoring and alert automation system using heartbeat-based health verification, tier-based alert escalation, automated notifications, and recovery detection to support reliable and scalable enterprise operations.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">Python</span>
+                                    <span class="tech-tag">Monitoring</span>
+                                    <span class="tech-tag">Alerting</span>
+                                    <span class="tech-tag">Automation</span>
+                                    <span class="tech-tag">System Design</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="3">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+                        <!-- Project 4 -->
+                        <div class="portfolio-item" data-category="ai">
+                            <img src="./assets/images/project4.png" alt="AI-Powered Healthcare Recommendation System" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">AI & Enterprise Solutions</span>
+                                <h3 class="portfolio-title">AI-Powered Healthcare Recommendation System</h3>
+                                <p class="portfolio-description">AI-based system for automated diet and medication recommendations to support healthcare workflows through data-driven insights.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">Machine Learning</span>
+                                    <span class="tech-tag">Healthcare AI</span>
+                                    <span class="tech-tag">Data Analysis</span>
+                                    <span class="tech-tag">Python</span>
+                                    <span class="tech-tag">Recommendation Systems</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="4">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+                        <!-- Project 5 -->
+                        <div class="portfolio-item" data-category="ai">
+                            <img src="./assets/images/project5.jpg" alt="Gender and Age Identification System" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">AI & Automations</span>
+                                <h3 class="portfolio-title">Gender and Age Identification System</h3>
+                                <p class="portfolio-description">CNN models for age and gender prediction from facial images using the UTK Face dataset with mobile application integration.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">Deep Learning</span>
+                                    <span class="tech-tag">Computer Vision</span>
+                                    <span class="tech-tag">CNN</span>
+                                    <span class="tech-tag">React Native</span>
+                                    <span class="tech-tag">TensorFlow</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="5">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+                        <!-- Project 6 -->
+                        <div class="portfolio-item" data-category="robotics">
+                            <img src="./assets/images/project6.jpg" alt="Hand Gesture Controlled Robotic Arm" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Robotics & Hardware</span>
+                                <h3 class="portfolio-title">Hand Gesture Controlled Robotic Arm</h3>
+                                <p class="portfolio-description">Gesture-controlled robotic arm using Arduino, gyroscope sensors, and flex sensors to translate human hand movements into robotic actions.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">Arduino</span>
+                                    <span class="tech-tag">Robotics</span>
+                                    <span class="tech-tag">Sensor Integration</span>
+                                    <span class="tech-tag">Embedded Systems</span>
+                                    <span class="tech-tag">C++</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="6">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+                        <!-- Project 7 -->
+                        <div class="portfolio-item" data-category="apps">
+                            <img src="./assets/images/project7.png" alt="Fire Alarm System for University Campus" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Applications & Networks</span>
+                                <h3 class="portfolio-title">Fire Alarm System for University Campus</h3>
+                                <p class="portfolio-description">Designed and implemented a comprehensive campus-wide fire alarm system using Cisco Packet Tracer, featuring centralized monitoring and automated alert mechanisms to enhance safety and emergency response.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">System Design</span>
+                                    <span class="tech-tag">Network Security</span>
+                                    <span class="tech-tag">Automation</span>
+                                    <span class="tech-tag">Safety Systems</span>
+                                    <span class="tech-tag">Monitoring</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="7">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+                        <!-- Project 8 -->
+                        <div class="portfolio-item" data-category="apps">
+                            <img src="./assets/images/project8.png" alt="Property Database Management System" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Applications & Networks</span>
+                                <h3 class="portfolio-title">Property Database Management System</h3>
+                                <p class="portfolio-description">Complete database management system for property tracking, tenant management, and financial record keeping using MySQL and web interface.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">MySQL</span>
+                                    <span class="tech-tag">Database Design</span>
+                                    <span class="tech-tag">Web Development</span>
+                                    <span class="tech-tag">PHP</span>
+                                    <span class="tech-tag">System Architecture</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="8">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+                        <!-- Project 9 -->
+                        <div class="portfolio-item" data-category="apps">
+                            <img src="./assets/images/project9.png" alt="Blood Group Collection Directory" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Applications & Networks</span>
+                                <h3 class="portfolio-title">Blood Group Collection Directory</h3>
+                                <p class="portfolio-description">Blood donor management system focused on donor tracking and discovery, enabling users to search and directly contact potential blood donors based on blood group and geographic location for emergency situations.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">C++</span>
+                                    <span class="tech-tag">.NET Framework</span>
+                                    <span class="tech-tag">Database</span>
+                                    <span class="tech-tag">GUI Development</span>
+                                    <span class="tech-tag">Healthcare Systems</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="9">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+                        <!-- Project 10 -->
+                        <div class="portfolio-item" data-category="graphics">
+                            <img src="./assets/images/opengl.png" alt="Day and Night Transition Scenery" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Graphics & Vision</span>
+                                <h3 class="portfolio-title">Day and Night Transition Scenery</h3>
+                                <p class="portfolio-description">Computer graphics project creating realistic scenery with day-to-night transitions using OpenGL and lighting algorithms.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">OpenGL</span>
+                                    <span class="tech-tag">Computer Graphics</span>
+                                    <span class="tech-tag">C++</span>
+                                    <span class="tech-tag">Lighting Algorithms</span>
+                                    <span class="tech-tag">3D Rendering</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="10">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+                        <!-- Project 11 -->
+                        <div class="portfolio-item" data-category="graphics">
+                            <img src="./assets/images/3d.png" alt="3D Image Reconstruction" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Graphics & Vision</span>
+                                <h3 class="portfolio-title">3D Image Reconstruction</h3>
+                                <p class="portfolio-description">Digital image processing project for reconstructing three-dimensional images from multiple two-dimensional images using computer vision techniques.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">Computer Vision</span>
+                                    <span class="tech-tag">Image Processing</span>
+                                    <span class="tech-tag">3D Reconstruction</span>
+                                    <span class="tech-tag">Python</span>
+                                    <span class="tech-tag">OpenCV</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="11">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+                        <!-- Project 12 -->
+                        <div class="portfolio-item" data-category="apps">
+                            <img src="./assets/images/calculator.png" alt="Arithmetic Calculator and Number System" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Applications & Networks</span>
+                                <h3 class="portfolio-title">Arithmetic Calculator and Number System</h3>
+                                <p class="portfolio-description">Assembly language project implementing arithmetic operations and number system conversions with efficient low-level programming techniques.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">Assembly Language</span>
+                                    <span class="tech-tag">Low-level Programming</span>
+                                    <span class="tech-tag">Arithmetic Operations</span>
+                                    <span class="tech-tag">Number Systems</span>
+                                    <span class="tech-tag">Embedded Systems</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="12">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+                        <!-- Project 13 -->
+                        <div class="portfolio-item" data-category="apps">
+                            <img src="./assets/images/phonebook.png" alt="Phone Book Directory" class="portfolio-image">
+                            <div class="portfolio-content">
+                                <span class="portfolio-category">Applications & Networks</span>
+                                <h3 class="portfolio-title">Phone Book Directory</h3>
+                                <p class="portfolio-description">Contact management system with search, add, edit, and delete functionalities using C++ and .NET framework for efficient data handling.</p>
+                                <div class="portfolio-tech">
+                                    <span class="tech-tag">C++</span>
+                                    <span class="tech-tag">.NET Framework</span>
+                                    <span class="tech-tag">File Handling</span>
+                                    <span class="tech-tag">Data Structures</span>
+                                    <span class="tech-tag">GUI Application</span>
+                                </div>
+                                <!-- Commented out portfolio links
+                                <div class="portfolio-links">
+                                    <a href="#" class="portfolio-link view-project" data-project="13">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                        View Details
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================================================================
+                 CONTACT PAGE
+                 ================================================================== -->
+            <section id="contact" class="page-section">
+                <div class="section-container">
+                    <div class="section-header">
+                        <h2 class="section-title">Get In Touch</h2>
+                        <p class="section-subtitle">Let's discuss how we can work together on your next project</p>
+                    </div>
+
+                    <!-- Contact Container -->
+                    <div class="contact-container">
+                        <!-- Contact Information -->
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <ion-icon name="mail-outline"></ion-icon>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>Email</h3>
+                                    <a href="mailto:muhammadhuzaifabinhaider@gmail.com">muhammadhuzaifabinhaider@gmail.com</a>
+                                </div>
+                            </div>
+
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <ion-icon name="call-outline"></ion-icon>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>Phone</h3>
+                                    <a href="tel:+923346267740">+92 334 6267740</a>
+                                </div>
+                            </div>
+
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <ion-icon name="location-outline"></ion-icon>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>Location</h3>
+                                    <p>Karachi, Sindh, Pakistan</p>
+                                </div>
+                            </div>
+
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <ion-icon name="time-outline"></ion-icon>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>Availability</h3>
+                                    <p>Available for freelance projects and full-time opportunities</p>
+                                </div>
+                            </div>
+
+                            <div class="social-links">
+                                <a href="https://www.linkedin.com/in/muhammad-huzaifa-bin-haider-a67069255/" class="social-link" target="_blank" title="LinkedIn">
+                                    <ion-icon name="logo-linkedin"></ion-icon>
+                                </a>
+                                <a href="https://www.instagram.com/Huzaifa_2516/" class="social-link" target="_blank" title="Instagram">
+                                    <ion-icon name="logo-instagram"></ion-icon>
+                                </a>
+                                <a href="https://www.facebook.com/share/19pLKezo7c/?mibextid=wwXIfr" class="social-link" target="_blank" title="Facebook">
+                                    <ion-icon name="logo-facebook"></ion-icon>
+                                </a>
+                                
+                            </div>
+                        </div>
+
+                        <!-- Contact Form -->
+                        <div class="contact-form">
+                            <form id="contactForm" action="https://formspree.io/f/mreldvag" method="POST">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="name">Full Name *</label>
+                                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email Address *</label>
+                                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="subject">Subject *</label>
+                                    <input type="text" id="subject" name="subject" class="form-control" placeholder="Enter subject" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="message">Message *</label>
+                                    <textarea id="message" name="message" class="form-control" placeholder="Enter your message" rows="6" required></textarea>
+                                </div>
+                                
+                                <button type="submit" class="submit-btn">
+                                    <ion-icon name="send-outline"></ion-icon>
+                                    Send Message
+                                </button>
+                                
+                                <div class="form-message" id="formMessage"></div>
+                            </form>
+                        </div>
+
+                    <!-- Map Section -->
+                    <div class="map-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Location</h2>
+                            <p class="section-subtitle">Based in Karachi, Pakistan - Available for remote work worldwide</p>
+                        </div>
+                        <div class="map-container">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14458.70721480902!2d67.174723!3d24.8788382!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb339d42826d439:0xdfc19ef31cd07182!2sKarachi%2C%20Sindh%2C%20Pakistan!5e0!3m2!1sen!2s!4v20260202"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ==========================================================================
+         FOOTER
+         ========================================================================== -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="footer-logo">Huzaifa</div>
+                    <p>AI Engineer and Technology Specialist building intelligent systems that transform complex data into practical, scalable solutions.</p>
+                    <div class="footer-social">
+                        <a href="https://www.linkedin.com/in/muhammad-huzaifa-bin-haider-a67069255/" class="social-link" target="_blank">
+                            <ion-icon name="logo-linkedin"></ion-icon>
+                        </a>
+                        <a href="https://www.instagram.com/Huzaifa_2516/" class="social-link" target="_blank">
+                            <ion-icon name="logo-instagram"></ion-icon>
+                        </a>
+                        <a href="https://www.facebook.com/share/19pLKezo7c/?mibextid=wwXIfr" class="social-link" target="_blank">
+                            <ion-icon name="logo-facebook"></ion-icon>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#resume">Resume</a></li>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><ion-icon name="mail-outline"></ion-icon> muhammadhuzaifabinhaider@gmail.com</p>
+                    <p><ion-icon name="call-outline"></ion-icon> +92 334 6267740</p>
+                    <p><ion-icon name="location-outline"></ion-icon> Karachi, Pakistan</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Muhammad Huzaifa Bin Haider. All rights reserved.</p>
+        <!--        <p>Designed and developed with ❤️</p>-->
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+         PROJECT MODAL
+         ========================================================================== -->
+    <div class="project-modal" id="projectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Project Title</h2>
+                <span class="modal-category" id="modalCategory">Category</span>
+                <button class="modal-close" id="modalClose">
+                    <ion-icon name="close-outline"></ion-icon>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="" class="modal-image">
+                <p class="modal-description" id="modalDescription">Project description here...</p>
+                
+                <div class="modal-details">
+                    <div class="detail-group">
+                        <h4>Technologies Used</h4>
+                        <div class="modal-tech-stack" id="modalTech"></div>
+                    </div>
+                    <div class="detail-group">
+                        <h4>Project Features</h4>
+                        <ul id="modalFeatures" style="color: rgba(255, 255, 255, 0.9); line-height: 1.8; padding-left: 20px;"></ul>
+                    </div>
+                </div>
+                
+                <div class="modal-links" id="modalLinks">
+                    <!-- Links will be added dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         JAVASCRIPT
+         ========================================================================== -->
+    <script>
+        // Project Data for Modal
+        const projects = {
+            1: {
+                title: "Natural Language Processing Chatbot for Enterprise Systems",
+                category: "AI & Enterprise Solutions",
+                image: "./assets/images/project1.png",
+                description: "Currently developing an on-premise intelligent chatbot using Retrieval-Augmented Generation (RAG) and workflow automation with n8n to interpret complex user queries. The system is designed to generate optimized structured database queries and retrieve relevant data from PostgreSQL systems. Ongoing work includes evaluating compatibility, performance, and security for integration with SAP and other in-house enterprise applications, with all components deployed within an on-premise environment.",
+                tech: ["Python","RAG", "SAP","N8N", "Natural Language Processing", "PostgreSQL", "FastAPI", "Docker", "REST API", "Enterprise Integration"],
+                features: [
+                    "RAG-based NLP for intelligent query interpretation",
+                    "On-premise deployment with secure data handling",
+                    "n8n-driven workflow automation",
+                    "Dynamic PostgreSQL query generation",
+                    "Scalable design with monitoring and logging",
+                    "SAP and enterprise system integration (in progress)"
+                ],
+                links: [] // Commented out links
+            },
+            2: {
+                title: "Artificial Intelligence Referee Chatbot",
+                category: "AI & Automations",
+                image: "./assets/images/project2.jpg",
+                description: "The AI Referee Chatbot is an intelligent decision-making system designed to evaluate, compare, and enhance responses generated by multiple Large Language Models (LLMs) through a structured peer-review and voting mechanism. A single user prompt is routed simultaneously to several AI models—including FreeLLM, Groq, Mistral, and OpenRouter—where each model independently generates a response. These responses are then cross-evaluated by the models themselves, simulating a decision-making chamber in which multiple experts review, critique, and vote on the quality of each answer. A dedicated AI Referee acts as the chairperson of this process, selecting the best-performing model, explaining the reasoning behind the selection, identifying strengths and weaknesses across responses, and synthesizing a final enhanced answer that combines the strongest insights from all models. The system integrates persistent database storage for prompts, responses, voting results, and historical evaluations, supports OCR-based image-to-text and voice-to-text inputs, and offers multiple UI themes for improved user experience. Through optimized model selection and orchestration, the system achieves significantly improved response quality, demonstrating how collaborative intelligence and consensus-based evaluation can deliver more accurate, reliable, and explainable AI outputs than single-model approaches.",
+                tech: ["Python", "Large Language Models", "Machine Learning", "API Integration", "Voting Algorithms", "Flask"],
+                features: [
+                    "Multi-LLM orchestration with parallel prompt routing",
+                    "Peer-review and voting-based response evaluation",
+                    "Dedicated AI Referee for final decision and explanation",
+                    "Consensus-based enhanced answer generation",
+                    "Best-performing model identification and comparison",
+                    "Persistent database storage for prompts and evaluations",
+                    "OCR (image-to-text) input with AI evaluation",
+                    "Voice-to-text input using free APIs",
+                    "Dark and light UI themes for improved usability"
+                ],
+                links: [] // Commented out links
+            },
+            3: {
+                title: "Real-Time Infrastructure Monitoring System",
+                category: "Applications & Enterprise",
+                image: "./assets/images/project3.jpg",
+                description: "This project involves the development of a real-time infrastructure monitoring and alert automation system designed to track the availability and latency of enterprise assets such as servers, firewalls, network devices, cameras, printers, and endpoints. The system utilizes a heartbeat-based health verification mechanism instead of traditional ICMP ping monitoring, reducing unnecessary network traffic and avoiding firewall-triggered blocks commonly seen in enterprise environments. The platform implements stateful health tracking with a persistent, database-backed inventory of devices, IP mappings, and time-series logs. Devices are categorized into multiple criticality tiers with customized alert escalation policies, while an automated notification engine manages downtime detection, alert throttling, escalation timing, and recovery notifications. A lightweight dashboard presents essential operational metrics, and structured PDF reports can be generated for auditing, compliance, and performance analysis.",
+                tech: ["Python", "Monitoring Systems", "Alerting", "Automation", "System Design", "REST API"],
+                features: [
+                    "Heartbeat-based availability and latency monitoring",
+                    "Stateful device health tracking with persistent inventory",
+                    "Automated recovery detectionTier-based alert escalation and notification automation",
+                    "Automated downtime and recovery detection",
+                    "Latency-optimized monitoring dashboard",
+                    "Time-series logging and audit trail support",
+                    "PDF report generation for compliance and analysis",
+                    "Scalable, automation-first enterprise design"
+
+                ],
+                links: [] // Commented out links
+            },
+            4: {
+                title: "AI-Powered Healthcare Recommendation System",
+                category: "AI & Enterprise Solutions",
+                image: "./assets/images/project4.png",
+                description: "Initiated and contributed to an artificial intelligence–based system for automated diet and medication recommendations to support healthcare workflows through data-driven insights. The system analyzes patient data and medical history to provide personalized healthcare recommendations.",
+                tech: ["Machine Learning", "Healthcare AI", "Data Analysis", "Python", "Recommendation Systems", "Flask"],
+                features: [
+                    "Personalized diet and medication recommendations",
+                    "Patient data analysis and insights",
+                    "Healthcare workflow integration",
+                    "Data-driven decision support",
+                    "Secure patient data handling"
+                ],
+                links: [] // Commented out links
+            },
+            5: {
+                title: "Gender and Age Identification System",
+                category: "AI & Automations",
+                image: "./assets/images/project5.jpg",
+                description: "Developed advanced convolutional neural network models for accurate age and gender prediction from facial images using the UTK Face dataset. The project included a complete mobile application developed using React Native and Django as part of the complete system architecture.",
+                tech: ["Deep Learning", "Computer Vision", "CNN", "React Native", "Django", "TensorFlow"],
+                features: [
+                    "High-accuracy age and gender prediction",
+                    "CNN-based deep learning models",
+                    "Mobile application integration",
+                    "Real-time facial analysis",
+                    "Cross-platform compatibility"
+                ],
+                links: [] // Commented out links
+            },
+            6: {
+                title: "Hand Gesture Controlled Robotic Arm",
+                category: "Robotics & Hardware",
+                image: "./assets/images/project6.jpg",
+                description: "Designed and developed a gesture-controlled robotic arm using Arduino, gyroscope sensors, and flex sensors to translate human hand movements into precise real-time robotic actions. The system provides intuitive control for complex robotic operations.",
+                tech: ["Arduino", "Robotics", "Sensor Integration", "Embedded Systems", "Hardware", "C++"],
+                features: [
+                    "Real-time gesture recognition",
+                    "Precision robotic arm control",
+                    "Multiple sensor integration",
+                    "Intuitive user interface",
+                    "Modular and expandable design"
+                ],
+                links: [] // Commented out links
+            },
+            7: {
+                title: "Fire Alarm System for University Campus",
+                category: "Applications & Networks",
+                image: "./assets/images/project7.png",
+                description: "Designed and implemented a comprehensive fire alarm system with centralized monitoring and automated alert mechanisms for campus-wide safety. The system includes smoke detectors, heat sensors, and emergency notification systems.",
+                tech: ["System Design", "Automation", "Safety Systems", "Monitoring"],
+                features: [
+                    "Campus-wide coverage with centralized control",
+                    "Automated alert and notification system",
+                    "Real-time monitoring of all sensors",
+                    "Emergency response coordination",
+                    "Regular system testing and maintenance protocols"
+                ],
+                links: [] // Commented out links
+            },
+            8: {
+                title: "Property Database Management System",
+                category: "Applications & Networks",
+                image: "./assets/images/project8.png",
+                description: "Complete database management system for property tracking, tenant management, and financial record keeping using MySQL and web interface. The system handles property listings, tenant records, and maintenance requests.",
+                tech: ["MySQL", "Database Design", "Web Development", "PHP", "System Architecture"],
+                features: [
+                    "Comprehensive property and tenant management",
+                    "Maintenance request system",
+                    "Financial reporting and analytics",
+                    "Secure user authentication and data protection"
+                ],
+                links: [] // Commented out links
+            },
+            9: {
+                title: "Blood Group Collection Directory",
+                category: "Applications & Networks",
+                image: "./assets/images/project9.png",
+                description: "The Blood Donor Directory & Management System is an application designed to help users quickly identify and contact potential blood donors based on blood group and geographic location. The system stores detailed donor information, including blood group, contact number, city, and address, enabling individuals or healthcare providers to directly reach eligible donors during emergencies. By organizing donor data in a centralized and searchable directory, the platform allows users to efficiently locate donors from any city or region, improving accessibility and response time without managing blood inventory or stock.",
+                tech: ["C++", ".NET Framework", "GUI Development", "Healthcare Systems"],
+                features: [
+                    "Search donors by blood group and location",
+                    "Detailed donor profiles with contact and address information",
+                    "City- and region-based filtering for quick access",
+                    "Centralized donor directory for emergency use",
+                    "Simple and user-friendly interface for fast lookup"
+                ],
+                links: [] // Commented out links
+            },
+            10: {
+                title: "Day and Night Transition Scenery",
+                category: "Graphics & Vision",
+                image: "./assets/images/opengl.png",
+                description: "Computer graphics project creating realistic scenery with smooth day-to-night transitions using OpenGL and lighting algorithms. The project demonstrates advanced computer graphics techniques including texture mapping, lighting, and animation.",
+                tech: ["OpenGL", "Computer Graphics", "C++", "Lighting Algorithms"],
+                features: [
+                    "Realistic day-night cycle simulation",
+                    "Dynamic lighting and shadow effects",
+                    "Transition animations",
+                    "Texture mapping and environment mapping",
+                ],
+                links: [] // Commented out links
+            },
+            11: {
+                title: "3D Image Reconstruction",
+                category: "Graphics & Vision",
+                image: "./assets/images/3d.png",
+                description: "Digital image processing project for reconstructing three-dimensional images from multiple two-dimensional images using computer vision techniques. The system creates accurate 3D models from 2D image sequences.",
+                tech: ["Computer Vision", "Image Processing", "3D Reconstruction", "Python", "OpenCV"],
+                features: [
+                    "Multi-view 3D reconstruction",
+                    "Depth estimation from 2D images",
+                    "Point cloud generation",
+                    "Surface reconstruction algorithms",
+                    "Texture mapping and rendering"
+                ],
+                links: [] // Commented out links
+            },
+            12: {
+                title: "Arithmetic Calculator and Number System",
+                category: "Applications & Networks",
+                image: "./assets/images/calculator.png",
+                description: "Assembly language project implementing arithmetic operations and number system conversions with efficient low-level programming techniques. The calculator handles basic operations and conversions between binary, decimal, and hexadecimal systems.",
+                tech: ["Assembly Language", "Low-level Programming", "Arithmetic Operations", "Number Systems", "Embedded Systems"],
+                features: [
+                    "Basic arithmetic operations (add, subtract, multiply, divide)",
+                    "Number system conversions (binary, decimal, hexadecimal)",
+                    "Memory-efficient implementation",
+                    "Error handling and input validation",
+                    "Fast computation using assembly optimizations"
+                ],
+                links: [] // Commented out links
+            },
+            13: {
+                title: "Phone Book Directory",
+                category: "Applications & Networks",
+                image: "./assets/images/phonebook.png",
+                description: "Contact management system with search, add, edit, and delete functionalities using C++ and .NET framework for efficient data handling. The system provides a user-friendly interface for managing personal and professional contacts.",
+                tech: ["C++", ".NET Framework", "File Handling", "Data Structures", "GUI Application"],
+                features: [
+                    "Contact search with multiple criteria",
+                    "Add, edit, and delete contact information",
+                    "Contact categorization and grouping",
+                    "Import/export functionality",
+                    "Data backup and recovery options"
+                ],
+                links: [] // Commented out links
+            }
+        };
+
+        // DOM Elements
+        const loadingScreen = document.getElementById('loadingScreen');
+        const canvas = document.getElementById('canvas-bg');
+        const mainHeader = document.getElementById('mainHeader');
+        const navMenu = document.getElementById('navMenu');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const homeLink = document.getElementById('homeLink');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pageSections = document.querySelectorAll('.page-section');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+        const viewProjectButtons = document.querySelectorAll('.view-project');
+        const projectModal = document.getElementById('projectModal');
+        const modalClose = document.getElementById('modalClose');
+        const contactForm = document.getElementById('contactForm');
+        const formMessage = document.getElementById('formMessage');
+        const testimonialsTrack = document.getElementById('testimonialsTrack');
+        const testimonialDots = document.getElementById('testimonialDots');
+        const prevTestimonialBtn = document.getElementById('prevTestimonial');
+        const nextTestimonialBtn = document.getElementById('nextTestimonial');
+
+        // ==========================================================================
+        // LOADING SCREEN
+        // ==========================================================================
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+            }, 1500);
+        });
+
+        // ==========================================================================
+        // ANIMATED BACKGROUND
+        // ==========================================================================
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        // Mouse tracking
+        const mouse = {
+            x: null,
+            y: null,
+            radius: 150
+        };
+
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        // Particle class
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 5 + 2;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.color = Math.random() > 0.5 ? '#3fffdc' : Math.random() > 0.5 ? '#9f6bff' : '#ff4fa6';
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.wanderStrength = 0.02;
+                this.angle = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                // Organic wandering
+                this.angle += this.wanderStrength;
+                this.speedX += Math.cos(this.angle) * 0.01;
+                this.speedY += Math.sin(this.angle) * 0.01;
+
+                // Mouse interaction
+                if (mouse.x !== null) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < mouse.radius) {
+                        const angle = Math.atan2(dy, dx);
+                        const force = (mouse.radius - distance) / mouse.radius;
+                        this.speedX -= Math.cos(angle) * force * 0.5;
+                        this.speedY -= Math.sin(angle) * force * 0.5;
+                    }
+                }
+
+                // Velocity limits
+                const maxSpeed = 2;
+                const speed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
+                if (speed > maxSpeed) {
+                    this.speedX = (this.speedX / speed) * maxSpeed;
+                    this.speedY = (this.speedY / speed) * maxSpeed;
+                }
+
+                // Apply velocity
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Friction
+                this.speedX *= 0.99;
+                this.speedY *= 0.99;
+
+                // Boundary check
+                if (this.x > width) this.x = 0;
+                if (this.x < 0) this.x = width;
+                if (this.y > height) this.y = 0;
+                if (this.y < 0) this.y = height;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        // Create particles
+        const particles = [];
+        const particleCount = Math.min(150, Math.floor((width * height) / 10000));
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        // Connection lines
+        function connectParticles() {
+            const maxDistance = 150;
+            
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < maxDistance) {
+                        const opacity = 1 - (distance / maxDistance);
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(63, 255, 220, ${opacity * 0.15})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            connectParticles();
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Handle resize
+        function handleResize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            
+            // Reinitialize particles on resize
+            particles.length = 0;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        // Start animation
+        animateParticles();
+
+        // ==========================================================================
+        // HEADER SCROLL EFFECT
+        // ==========================================================================
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                mainHeader.classList.add('scrolled');
+            } else {
+                mainHeader.classList.remove('scrolled');
+            }
+        });
+
+        // ==========================================================================
+        // MOBILE MENU TOGGLE
+        // ==========================================================================
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = mobileMenuBtn.querySelector('ion-icon');
+            if (navMenu.classList.contains('active')) {
+                icon.setAttribute('name', 'close-outline');
+            } else {
+                icon.setAttribute('name', 'menu-outline');
+            }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.querySelector('ion-icon').setAttribute('name', 'menu-outline');
+            }
+        });
+
+        // ==========================================================================
+        // PAGE NAVIGATION
+        // ==========================================================================
+        function showPage(pageId) {
+            // Hide all pages
+            pageSections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // Update active nav link
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Close mobile menu
+            if (navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.querySelector('ion-icon').setAttribute('name', 'menu-outline');
+            }
+            
+            // Scroll to top of page
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Home link click
+        homeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('about');
+        });
+
+        // Nav link clicks
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                showPage(pageId);
+            });
+        });
+
+        // ==========================================================================
+        // PORTFOLIO FILTERING
+        // ==========================================================================
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                const filterValue = button.getAttribute('data-filter');
+                
+                // Filter portfolio items
+                portfolioItems.forEach(item => {
+                    const categories = item.getAttribute('data-category').split(' ');
+                    
+                    if (filterValue === 'all' || categories.includes(filterValue)) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        }, 10);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // ==========================================================================
+        // PROJECT MODAL
+        // ==========================================================================
+        // Since we commented out all view buttons, we need to add click event to portfolio items
+        portfolioItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                // Don't trigger if clicking on links or buttons inside
+                if (e.target.closest('a') || e.target.closest('button')) return;
+                
+                // Get project ID from the item
+                const projectId = Array.from(portfolioItems).indexOf(item) + 1;
+                const project = projects[projectId];
+                
+                if (project) {
+                    // Update modal content
+                    document.getElementById('modalTitle').textContent = project.title;
+                    document.getElementById('modalCategory').textContent = project.category;
+                    document.getElementById('modalImage').src = project.image;
+                    document.getElementById('modalImage').alt = project.title;
+                    document.getElementById('modalDescription').textContent = project.description;
+                    
+                    // Update technologies
+                    const modalTech = document.getElementById('modalTech');
+                    modalTech.innerHTML = '';
+                    project.tech.forEach(tech => {
+                        const techTag = document.createElement('span');
+                        techTag.className = 'tech-tag-large';
+                        techTag.textContent = tech;
+                        modalTech.appendChild(techTag);
+                    });
+                    
+                    // Update features
+                    const modalFeatures = document.getElementById('modalFeatures');
+                    modalFeatures.innerHTML = '';
+                    project.features.forEach(feature => {
+                        const li = document.createElement('li');
+                        li.textContent = feature;
+                        modalFeatures.appendChild(li);
+                    });
+                    
+                    // Update links
+                    const modalLinks = document.getElementById('modalLinks');
+                    modalLinks.innerHTML = '';
+                    
+                    // Only add links if they exist
+                    if (project.links && project.links.length > 0) {
+                        project.links.forEach(link => {
+                            const a = document.createElement('a');
+                            a.href = link.url;
+                            a.className = `modal-link ${link.type}`;
+                            a.target = '_blank';
+                            a.innerHTML = `
+                                <ion-icon name="${link.type === 'github' ? 'logo-github' : 'globe-outline'}"></ion-icon>
+                                ${link.text}
+                            `;
+                            modalLinks.appendChild(a);
+                        });
+                    }
+                    
+                    // Show modal
+                    projectModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Close modal
+        modalClose.addEventListener('click', () => {
+            projectModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close modal when clicking outside
+        projectModal.addEventListener('click', (e) => {
+            if (e.target === projectModal) {
+                projectModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && projectModal.classList.contains('active')) {
+                projectModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // ==========================================================================
+        // CONTACT FORM
+        // ==========================================================================
+        // ==========================================================================
+        // CONTACT FORM WITH FORMSPREE
+        // ==========================================================================
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get form data for validation
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Validate form
+            if (!name || !email || !subject || !message) {
+                showFormMessage('Please fill in all required fields.', 'error');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showFormMessage('Please enter a valid email address.', 'error');
+                return;
+            }
+            
+            // Disable submit button
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<ion-icon name="hourglass-outline"></ion-icon> Sending...';
+            submitBtn.disabled = true;
+            
+            // Get form data for Formspree
+            const formData = new FormData(contactForm);
+            
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Show success message
+                    showFormMessage('Thank you for your message! I will get back to you soon.', 'success');
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Log form data (for debugging)
+                    console.log('Form submitted successfully:', { name, email, subject, message });
+                } else {
+                    // Handle Formspree errors
+                    try {
+                        const data = await response.json();
+                        if (data.errors) {
+                            showFormMessage(data.errors.map(error => error.message).join(', '), 'error');
+                        } else {
+                            showFormMessage('There was an error sending your message. Please try again.', 'error');
+                        }
+                    } catch (parseError) {
+                        showFormMessage('There was an error sending your message. Please try again.', 'error');
+                    }
+                }
+                
+            } catch (error) {
+                showFormMessage('Network error. Please check your connection and try again.', 'error');
+                console.error('Form submission error:', error);
+            } finally {
+                // Re-enable submit button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        function showFormMessage(message, type) {
+            formMessage.textContent = message;
+            formMessage.className = `form-message ${type}`;
+            formMessage.style.display = 'block';
+            
+            // Hide message after 5 seconds for success, 8 seconds for error
+            setTimeout(() => {
+                formMessage.style.display = 'none';
+            }, type === 'success' ? 5000 : 8000);
+        }
+
+        // ==========================================================================
+        // TESTIMONIALS SLIDER
+        // ==========================================================================
+        let currentTestimonial = 0;
+        const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+        const totalTestimonials = testimonialSlides.length;
+
+        // Initialize slider
+        function updateTestimonialSlider() {
+            testimonialsTrack.style.transform = `translateX(-${currentTestimonial * 100}%)`;
+            
+            // Update dots
+            document.querySelectorAll('.slider-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentTestimonial);
+            });
+        }
+
+        // Next testimonial
+        nextTestimonialBtn.addEventListener('click', () => {
+            currentTestimonial = (currentTestimonial + 1) % totalTestimonials;
+            updateTestimonialSlider();
+        });
+
+        // Previous testimonial
+        prevTestimonialBtn.addEventListener('click', () => {
+            currentTestimonial = (currentTestimonial - 1 + totalTestimonials) % totalTestimonials;
+            updateTestimonialSlider();
+        });
+
+        // Dot navigation
+        document.querySelectorAll('.slider-dot').forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentTestimonial = index;
+                updateTestimonialSlider();
+            });
+        });
+
+        // Auto-advance testimonials
+        setInterval(() => {
+            currentTestimonial = (currentTestimonial + 1) % totalTestimonials;
+            updateTestimonialSlider();
+        }, 8000);
+
+        // ==========================================================================
+        // SKILL ANIMATION
+        // ==========================================================================
+        function animateSkills() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            skillBars.forEach(bar => {
+                const percent = bar.style.width;
+                bar.style.width = '0%';
+                
+                setTimeout(() => {
+                    bar.style.width = percent;
+                }, 300);
+            });
+        }
+
+        // Animate skills when resume page is active
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.target.id === 'resume') {
+                    setTimeout(animateSkills, 500);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        observer.observe(document.getElementById('resume'));
+
+        // ==========================================================================
+        // INITIALIZE
+        // ==========================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize testimonials slider
+            updateTestimonialSlider();
+            
+            // Initialize skills animation
+            setTimeout(animateSkills, 1000);
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    if (this.getAttribute('href') === '#') return;
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        e.preventDefault();
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+        // ==========================================================================
+        // UTILITY FUNCTIONS
+        // ==========================================================================
+        function debounce(func, wait = 20, immediate = true) {
+            let timeout;
+            return function() {
+                const context = this, args = arguments;
+                const later = function() {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                const callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        }
+
+        // Parallax effect for background
+        window.addEventListener('scroll', debounce(() => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            canvas.style.transform = `translate3d(0px, ${rate}px, 0px)`;
+        }));
+    </script>
+</body>
+</html>
